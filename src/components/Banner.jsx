@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "./axios.js";
+import axios from "axios";
 import './banner.css'
 import movieTrailer from "movie-trailer";
 import Details from "./Details.jsx";
@@ -9,9 +9,12 @@ const Banner = ({url}) => {
     const [showDetails, setShowDetails] = useState(false)
     const [details, setDetails] = useState()
     const [trailerUrl, setTrailerUrl] = useState('')
+    const baseUrl = axios.create({
+        baseURL: "https://api.themoviedb.org/3",
+    })
     useEffect(()=>{
         async function fetchData() {
-            const data = await axios.get(url)
+            const data = await baseUrl.get(url)
             const movies = data.data.results
             setMovie(movies[Math.floor(Math.random()*movies.length-1)])
         }

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import axios from './axios.js'
 import movieTrailer from "movie-trailer";
+import axios from "axios";
 import './row.css'
 import Details from "./Details.jsx";
 
@@ -11,10 +11,13 @@ const Row = ({title, url, isLong}) => {
     const [showDetails, setShowDetails] = useState(false)
     const [details, setDetails] = useState()
     const [trailerUrl, setTrailerUrl] = useState('')
+    const baseUrl = axios.create({
+        baseURL: "https://api.themoviedb.org/3",
+    })
 
     useEffect( () => {
         async function fetchData() {
-            const requests = await axios.get(url)
+            const requests = await baseUrl.get(url)
             setMovies(requests.data.results)
         }
         url && fetchData().then(()=>{})
